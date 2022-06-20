@@ -1,19 +1,11 @@
-const path = require('path');
-const fs = require('fs');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const appDirectory = fs.realpathSync(process.cwd());
-const resolveAppPath = (relativePath) =>
-  path.resolve(appDirectory, relativePath);
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
 const host = process.env.HOST || 'localhost';
-
 process.env.NODE_ENV = 'development';
-module.exports = {
-  entry: './src/index.js',
+
+module.exports = merge(common, {
   mode: 'development',
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+  devtool: false,
   devServer: {
     historyApiFallback: true,
     compress: true,
@@ -21,10 +13,4 @@ module.exports = {
     host,
     port: 3000,
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: resolveAppPath('public/index.html'),
-    }),
-  ],
-};
+});

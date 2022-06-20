@@ -25,6 +25,60 @@ Object {
     },
   },
   "Resources": Object {
+    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": Object {
+      "DependsOn": Array [
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "864aa5eb2d6ca4e0d4d65c940bc9e4d5a29db1e4f3f3a098ddb56f76b2129ac4.zip",
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "CloudfrontDistributionE1C514EC": Object {
       "Properties": Object {
         "DistributionConfig": Object {
@@ -97,6 +151,76 @@ Object {
         },
       },
       "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+    },
+    "ConfigFrontEnd359F460A": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "ConfigFrontEndCustomResourcePolicyD9A2DBD8",
+      ],
+      "Properties": Object {
+        "Create": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"service\\":\\"S3\\",\\"action\\":\\"putObject\\",\\"parameters\\":{\\"Body\\":\\"{\\\\\\"BackEnd\\\\\\":{\\\\\\"apiUrl\\\\\\":\\\\\\"",
+              Object {
+                "Fn::ImportValue": "simpleChimeMeetingApiUrl",
+              },
+              "\\\\\\"}}\\",\\"Bucket\\":\\"",
+              Object {
+                "Ref": "websiteBucket74B0F9E5",
+              },
+              "\\",\\"Key\\":\\"cdk-outputs.json\\"},\\"physicalResourceId\\":{\\"id\\":\\"1655701132960\\"}}",
+            ],
+          ],
+        },
+        "InstallLatestAwsSdk": true,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn",
+          ],
+        },
+        "Update": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"service\\":\\"S3\\",\\"action\\":\\"putObject\\",\\"parameters\\":{\\"Body\\":\\"{\\\\\\"BackEnd\\\\\\":{\\\\\\"apiUrl\\\\\\":\\\\\\"",
+              Object {
+                "Fn::ImportValue": "simpleChimeMeetingApiUrl",
+              },
+              "\\\\\\"}}\\",\\"Bucket\\":\\"",
+              Object {
+                "Ref": "websiteBucket74B0F9E5",
+              },
+              "\\",\\"Key\\":\\"cdk-outputs.json\\"},\\"physicalResourceId\\":{\\"id\\":\\"1655701132960\\"}}",
+            ],
+          ],
+        },
+      },
+      "Type": "Custom::AWS",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ConfigFrontEndCustomResourcePolicyD9A2DBD8": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:PutObject",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ConfigFrontEndCustomResourcePolicyD9A2DBD8",
+        "Roles": Array [
+          Object {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": Object {
       "DependsOn": Array [
@@ -355,7 +479,7 @@ Object {
           },
         ],
         "SourceObjectKeys": Array [
-          "1a9e9dcc176bb1000f0e153b4a6cf1569a4f3e25411758af6a675d5a1014a878.zip",
+          "ea535d7ce072257cb2fbb6b8755297dc5ebd5bcddecf5e8fe1195b609fa3cbe6.zip",
         ],
       },
       "Type": "Custom::CDKBucketDeployment",
@@ -509,13 +633,16 @@ exports[`Snapshot 2`] = `
 Object {
   "Outputs": Object {
     "apiUrl": Object {
+      "Export": Object {
+        "Name": "simpleChimeMeetingApiUrl",
+      },
       "Value": Object {
         "Fn::Join": Array [
           "",
           Array [
             "https://",
             Object {
-              "Ref": "infrastructureclickToCallApi24B80A1E",
+              "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
             },
             ".execute-api.",
             Object {
@@ -527,21 +654,21 @@ Object {
             },
             "/",
             Object {
-              "Ref": "infrastructureclickToCallApiDeploymentStageprodC7B545AF",
+              "Ref": "infrastructureChimeSDKMeetingAPIDeploymentStageprodDDE3819A",
             },
             "/",
           ],
         ],
       },
     },
-    "infrastructureclickToCallApiEndpoint9F4869C3": Object {
+    "infrastructureChimeSDKMeetingAPIEndpointA3077C32": Object {
       "Value": Object {
         "Fn::Join": Array [
           "",
           Array [
             "https://",
             Object {
-              "Ref": "infrastructureclickToCallApi24B80A1E",
+              "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
             },
             ".execute-api.",
             Object {
@@ -553,7 +680,7 @@ Object {
             },
             "/",
             Object {
-              "Ref": "infrastructureclickToCallApiDeploymentStageprodC7B545AF",
+              "Ref": "infrastructureChimeSDKMeetingAPIDeploymentStageprodDDE3819A",
             },
             "/",
           ],
@@ -569,32 +696,32 @@ Object {
     },
   },
   "Resources": Object {
-    "infrastructureclickToCallApi24B80A1E": Object {
+    "infrastructureChimeSDKMeetingAPI0524B384": Object {
       "Properties": Object {
         "EndpointConfiguration": Object {
           "Types": Array [
             "REGIONAL",
           ],
         },
-        "Name": "clickToCallApi",
+        "Name": "ChimeSDKMeetingAPI",
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "infrastructureclickToCallApiAccount76752816": Object {
+    "infrastructureChimeSDKMeetingAPIAccount6336B0F1": Object {
       "DependsOn": Array [
-        "infrastructureclickToCallApi24B80A1E",
+        "infrastructureChimeSDKMeetingAPI0524B384",
       ],
       "Properties": Object {
         "CloudWatchRoleArn": Object {
           "Fn::GetAtt": Array [
-            "infrastructureclickToCallApiCloudWatchRoleD665A88B",
+            "infrastructureChimeSDKMeetingAPICloudWatchRole61899E44",
             "Arn",
           ],
         },
       },
       "Type": "AWS::ApiGateway::Account",
     },
-    "infrastructureclickToCallApiCloudWatchRoleD665A88B": Object {
+    "infrastructureChimeSDKMeetingAPICloudWatchRole61899E44": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -625,28 +752,28 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "infrastructureclickToCallApiDeploymentBB67B4CA61416c686cf5664c77d07293c3139e2b": Object {
+    "infrastructureChimeSDKMeetingAPIDeploymentBBBB8996af78bafec442e6b6036d0d5a6299eda1": Object {
       "DependsOn": Array [
-        "infrastructureclickToCallApidialOPTIONSF942E871",
-        "infrastructureclickToCallApidialPOST40782509",
-        "infrastructureclickToCallApidialF9E6AA04",
-        "infrastructureclickToCallApiOPTIONS8B961E13",
+        "infrastructureChimeSDKMeetingAPImeetingOPTIONSCFFB47F2",
+        "infrastructureChimeSDKMeetingAPImeetingPOST8BDE5068",
+        "infrastructureChimeSDKMeetingAPImeeting04E26EBB",
+        "infrastructureChimeSDKMeetingAPIOPTIONS0F18E938",
       ],
       "Properties": Object {
         "Description": "Automatically created by the RestApi construct",
         "RestApiId": Object {
-          "Ref": "infrastructureclickToCallApi24B80A1E",
+          "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
         },
       },
       "Type": "AWS::ApiGateway::Deployment",
     },
-    "infrastructureclickToCallApiDeploymentStageprodC7B545AF": Object {
+    "infrastructureChimeSDKMeetingAPIDeploymentStageprodDDE3819A": Object {
       "DependsOn": Array [
-        "infrastructureclickToCallApiAccount76752816",
+        "infrastructureChimeSDKMeetingAPIAccount6336B0F1",
       ],
       "Properties": Object {
         "DeploymentId": Object {
-          "Ref": "infrastructureclickToCallApiDeploymentBB67B4CA61416c686cf5664c77d07293c3139e2b",
+          "Ref": "infrastructureChimeSDKMeetingAPIDeploymentBBBB8996af78bafec442e6b6036d0d5a6299eda1",
         },
         "MethodSettings": Array [
           Object {
@@ -657,13 +784,13 @@ Object {
           },
         ],
         "RestApiId": Object {
-          "Ref": "infrastructureclickToCallApi24B80A1E",
+          "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
         },
         "StageName": "prod",
       },
       "Type": "AWS::ApiGateway::Stage",
     },
-    "infrastructureclickToCallApiOPTIONS8B961E13": Object {
+    "infrastructureChimeSDKMeetingAPIOPTIONS0F18E938": Object {
       "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "OPTIONS",
@@ -697,32 +824,32 @@ Object {
         ],
         "ResourceId": Object {
           "Fn::GetAtt": Array [
-            "infrastructureclickToCallApi24B80A1E",
+            "infrastructureChimeSDKMeetingAPI0524B384",
             "RootResourceId",
           ],
         },
         "RestApiId": Object {
-          "Ref": "infrastructureclickToCallApi24B80A1E",
+          "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "infrastructureclickToCallApidialF9E6AA04": Object {
+    "infrastructureChimeSDKMeetingAPImeeting04E26EBB": Object {
       "Properties": Object {
         "ParentId": Object {
           "Fn::GetAtt": Array [
-            "infrastructureclickToCallApi24B80A1E",
+            "infrastructureChimeSDKMeetingAPI0524B384",
             "RootResourceId",
           ],
         },
-        "PathPart": "dial",
+        "PathPart": "meeting",
         "RestApiId": Object {
-          "Ref": "infrastructureclickToCallApi24B80A1E",
+          "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "infrastructureclickToCallApidialOPTIONSF942E871": Object {
+    "infrastructureChimeSDKMeetingAPImeetingOPTIONSCFFB47F2": Object {
       "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "OPTIONS",
@@ -755,15 +882,15 @@ Object {
           },
         ],
         "ResourceId": Object {
-          "Ref": "infrastructureclickToCallApidialF9E6AA04",
+          "Ref": "infrastructureChimeSDKMeetingAPImeeting04E26EBB",
         },
         "RestApiId": Object {
-          "Ref": "infrastructureclickToCallApi24B80A1E",
+          "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "infrastructureclickToCallApidialPOST40782509": Object {
+    "infrastructureChimeSDKMeetingAPImeetingPOST8BDE5068": Object {
       "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "POST",
@@ -795,15 +922,15 @@ Object {
           },
         },
         "ResourceId": Object {
-          "Ref": "infrastructureclickToCallApidialF9E6AA04",
+          "Ref": "infrastructureChimeSDKMeetingAPImeeting04E26EBB",
         },
         "RestApiId": Object {
-          "Ref": "infrastructureclickToCallApi24B80A1E",
+          "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "infrastructureclickToCallApidialPOSTApiPermissionBackEndinfrastructureclickToCallApi2A0433BAPOSTdialFE0A699F": Object {
+    "infrastructureChimeSDKMeetingAPImeetingPOSTApiPermissionBackEndinfrastructureChimeSDKMeetingAPI1958F59DPOSTmeeting7991A8F6": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -831,20 +958,20 @@ Object {
               },
               ":",
               Object {
-                "Ref": "infrastructureclickToCallApi24B80A1E",
+                "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
               },
               "/",
               Object {
-                "Ref": "infrastructureclickToCallApiDeploymentStageprodC7B545AF",
+                "Ref": "infrastructureChimeSDKMeetingAPIDeploymentStageprodDDE3819A",
               },
-              "/POST/dial",
+              "/POST/meeting",
             ],
           ],
         },
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "infrastructureclickToCallApidialPOSTApiPermissionTestBackEndinfrastructureclickToCallApi2A0433BAPOSTdial4D61521E": Object {
+    "infrastructureChimeSDKMeetingAPImeetingPOSTApiPermissionTestBackEndinfrastructureChimeSDKMeetingAPI1958F59DPOSTmeetingF2EFF825": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -872,9 +999,9 @@ Object {
               },
               ":",
               Object {
-                "Ref": "infrastructureclickToCallApi24B80A1E",
+                "Ref": "infrastructureChimeSDKMeetingAPI0524B384",
               },
-              "/test-invoke-stage/POST/dial",
+              "/test-invoke-stage/POST/meeting",
             ],
           ],
         },

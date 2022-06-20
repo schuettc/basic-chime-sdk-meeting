@@ -11,6 +11,9 @@ export class BackEnd extends Stack {
     // });
 
     const infrastructure = new Infrastructure(this, 'infrastructure');
-    new CfnOutput(this, 'apiUrl', { value: infrastructure.apiUrl });
+    new CfnOutput(this, 'apiUrl', {
+      value: infrastructure.apiUrl,
+      exportName: 'simpleChimeMeetingApiUrl',
+    });
   }
 }

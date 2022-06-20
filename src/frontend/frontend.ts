@@ -5,11 +5,13 @@ import {
   Stack,
   StackProps,
   DockerImage,
+  Fn,
 } from 'aws-cdk-lib';
 import * as cfn from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import { copySync } from 'fs-extra';
 
@@ -70,6 +72,25 @@ export class FrontEnd extends Stack {
       destinationBucket: siteBucket,
       distribution: distribution,
       distributionPaths: ['/*'],
+    });
+    const importedApiUrl = Fn.importValue('simpleChimeMeetingApiUrl');
+
+    const cdkOutputs = { BackEnd: { apiUrl: importedApiUrl } };
+
+    new cr.AwsCustomResource(this, 'ConfigFrontEnd', {
+      onUpdate: {
+        service: 'S3',
+        action: 'putObject',
+        parameters: {
+          Body: JSON.stringify(cdkOutputs),
+          Bucket: siteBucket.bucketName,
+          Key: 'cdk-outputs.json',
+        },
+        physicalResourceId: cr.PhysicalResourceId.of(Date.now().toString()),
+      },
+      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({
+        resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE,
+      }),
     });
 
     new CfnOutput(this, 'distribution', {
