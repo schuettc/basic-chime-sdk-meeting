@@ -29,6 +29,12 @@ In this project a small sample website using [Amazon Cognito](https://aws.amazon
 
 ![Project Structure](./images/solution-overview.png)
 
+Consider a case where a company serves a website or app to customers and where a logged-in customer wishes to connect to an agent for service. The website maintainer can include a script and div tag on the appropriate page to present a 'Click to Call' button (widget) to the user. For the purposes of this project, a sample website is included in the `site` directory.
+
+The source for the Click to Call widget is in the `src/frontend` directory, and when deployed, is served from an S3 Bucket origin through a CloudFront distribution into the `script` tag in the `site` source. It is necessary to pass the API token to the widget (via attribute) as the API Gateway requires token authentication. For this sample, the `site` uses Amazon Cognito for user login and token issuance.
+
+When the user clicks the button, the widget will call the API Gateway created from the source in `src/backend`, which is configured for Cognito token authorization, to request a new meeting ID. Using this meeting ID, the frontend widget initiates a WebRTC (audio) connection to Amazon Chime SDK.  Upon meeting creation a Lambda function will create a connection to the Amazon Chime Voice Connector which will dial out to the call center. Metadata such as username and page context can also be passed as transaction attributes to the agent call.
+
 ## Backlog of work items -- TODOs
 
 [ ] Storyboard/Wireframe use cases
