@@ -30,7 +30,7 @@
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "aws-cdk": "^2.28.0",
+    "aws-cdk": "^2.30.0",
     "esbuild": "^0.14.45",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.6",
@@ -47,7 +47,8 @@
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
-    "aws-cdk-lib": "^2.28.0",
+    "aws-cdk-lib": "^2.30.0",
+    "cdk-amazon-chime-resources": "^0.1.45",
     "constructs": "^10.0.5",
     "fs-extra": "^10.1.0"
   },

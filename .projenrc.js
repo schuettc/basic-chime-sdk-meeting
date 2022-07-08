@@ -1,11 +1,12 @@
 const { awscdk } = require('projen');
 const project = new awscdk.AwsCdkTypeScriptApp({
-  cdkVersion: '2.28.0',
+  cdkVersion: '2.30.0',
   defaultReleaseBranch: 'main',
   name: 'basic-chime-sdk-meeting',
   deps: ['fs-extra', '@types/fs-extra'],
   appEntrypoint: 'basic-chime-sdk-meeting.ts',
   devDeps: ['esbuild'],
+  deps: ['cdk-amazon-chime-resources', 'fs-extra', '@types/fs-extra'],
   autoApproveOptions: {
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['schuettc'],
@@ -27,6 +28,7 @@ const common_exclude = [
   'yarn-error.log',
   'dependabot.yml',
   '*.drawio',
+  '.DS_Store',
 ];
 
 project.gitignore.exclude(...common_exclude);

@@ -1,64 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>My Chime SDK Meeting Demo</title>
-    <link rel="icon" href="data:," />
+    <title>Click To Call Demo</title>
   </head>
-  <body>
-    <div class="menu">
-      <div>
-        video test<br />
-        ExternalMeetingId :
-        <input id="externalMeetingId" value="" style="width: 300px" /><br />
-        MeetingId : <input id="meetingId" value="" style="width: 300px" /><br />
-        AttendeeId : <input id="attendeeId" value="" style="width: 300px" />
-        <br />
-      </div>
-      <div>
-        <div>
-          <label for="video-input block">Camera : </label>
-          <select
-            id="video-input"
-            class="custom-select"
-            style="width: 100%"
-          ></select>
-        </div>
-      </div>
-    </div>
-    <!-- end of menu -->
-    <div>
-      <script type="text/javascript" src="main.js"></script>
-      <button id="join" onClick="joinMeeting()">Join!</button>
-      <label for="mic-muted block">mute mic : </label>
-      <input id="mic-muted" class="custom_select" type="checkbox" />
-      <div id="video-section">
-        <table style="height: 600px">
-          <tr style="height: 10%">
-            <th width="50%">Self View</th>
-            <th width="50%">Remote Video</th>
-          </tr>
-          <tr style="height: 90%">
-            <td height="80%">
-              <div id="video-tile">
-                <video
-                  id="video-tile-self"
-                  src=""
-                  height="100%"
-                  width="100%"
-                ></video>
-              </div>
-            </td>
-            <td height="80%">
-              <div id="remote-video"></div>
-            </td>
-          </tr>
-        </table>
-        <audio id="audio" crossorigin="anonymous" autoplay></audio>
-      </div>
-    </div>
+  <body onload="createForm();">
+    <h1 style="color: green">Click To Call</h1>
   </body>
+  <script type="text/javascript" src="index.js"></script>
 </html>

@@ -1136,10 +1136,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-aws-cdk-lib@^2.28.0:
-  version "2.28.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.28.1.tgz#29485b42dadcf0aa769b8c8767299e98729af0c8"
-  integrity sha512-YFJKvv3lU7HUfud+4uyQT5tNyJhidBB1ftBmc6NzML+UXAuelPZICJLdGuoE/dA6dU3mB/sT15S+fTzATTwvfg==
+aws-cdk-lib@^2.30.0:
+  version "2.31.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.31.0.tgz#391e8ff70c6de0a0629915e45ae6fcec17cae847"
+  integrity sha512-6GvBmHtUx74uffl6kzvTL1bWN2/qPj4oHQj12gtqPifFBbNNrYGjLEeBY6DuidLhg96OoRoFc3lyJoiB/p7BEw==
   dependencies:
     "@balena/dockerignore" "^1.0.2"
     case "1.6.3"
@@ -1151,10 +1151,10 @@ aws-cdk-lib@^2.28.0:
     semver "^7.3.7"
     yaml "1.10.2"
 
-aws-cdk@^2.28.0:
-  version "2.28.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.28.1.tgz#d097d3ef428f5820f217364a39b0ebeeb7570967"
-  integrity sha512-0Kklrj9HHg6HkYZQuTnJ+2+RLTqlVcxECUmlDudBxbPxJQcc5pEA9stfo8wwh1CtoWYuF4A4moP7B19Yvw4nJg==
+aws-cdk@^2.30.0:
+  version "2.31.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.31.0.tgz#779b4d121ac705333e81a86a0be1cc46e2979a90"
+  integrity sha512-vA6ErwhUX7IuIvYkmzlEH8XUN6Ygali/MlEdRwvcD2Dlg1D1WF2zMxGPN8H0sY69S6N2lnM8VmiNiSrh/fpShg==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -1395,6 +1395,11 @@ case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
+
+cdk-amazon-chime-resources@^0.1.45:
+  version "0.1.45"
+  resolved "https://registry.yarnpkg.com/cdk-amazon-chime-resources/-/cdk-amazon-chime-resources-0.1.45.tgz#245f48df3a35da6bf5362e9b8b0c861cf0cde836"
+  integrity sha512-TXU7ZvGQps1WWqwlWzNgRB6mOv3Pvg2VZAvAROxZDQ3otBqzwbT9OpaUY3dY+vobgt2jo6yVaf0suGjnuQ6MoQ==
 
 chalk@^2.0.0:
   version "2.4.2"

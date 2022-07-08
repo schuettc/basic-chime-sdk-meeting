@@ -21,7 +21,7 @@
     },
     {
       "name": "aws-cdk",
-      "version": "^2.28.0",
+      "version": "^2.30.0",
       "type": "build"
     },
     {
@@ -87,7 +87,11 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.28.0",
+      "version": "^2.30.0",
+      "type": "runtime"
+    },
+    {
+      "name": "cdk-amazon-chime-resources",
       "type": "runtime"
     },
     {
